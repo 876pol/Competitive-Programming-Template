@@ -1,16 +1,29 @@
+#pragma GCC optimize("Ofast,no-stack-protector,unroll-loops,fast-math,O3")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx")
+
 #include <bits/stdc++.h>
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
 
 #define ll long long
 #define ld long double
-#define pi pair<int, int>
 #define pll pair<long long, long long>
-#define vi vector<int>
 #define vll vector<long long>
-#define vvi vector<vector<int>>
 #define vvll vector<vector<long long>>
-#define vpi vector<pair<int, int>>
 #define vpll vector<pair<long long, long long>>
+#define vec vector
+#define indexed_set                                          \
+    tree<long long, null_type, less<long long>, rb_tree_tag, \
+         tree_order_statistics_node_update>
+#define indexed_map                                     \
+    tree<pair<long long, long long>, null_type,         \
+         less<pair<long long, long long>>, rb_tree_tag, \
+         tree_order_statistics_node_update>
+#define fast_map gp_hash_table
 
 #define FOR(i, s, e) for (long long int i = s; i < e; i++)
 #define CFOR(i, s, e) for (long long int i = s; i <= e; i++)
@@ -22,15 +35,14 @@ using namespace std;
 #define EB emplace_back
 #define all(x) x.begin(), x.end()
 #define rall(x) x.rbegin(), x.rend()
-#define dbg(var) \
-    cerr << "ln" << __LINE__ << ": " << #var << " = " << (var) << endl
+#define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << x << endl
 
 template <class T>
 string to_string(vector<T> &vec) {
     std::ostringstream vts;
     if (!vec.empty()) {
         std::copy(vec.begin(), vec.end() - 1,
-                  std::ostream_iterator<int>(vts, ", "));
+                  std::ostream_iterator<T>(vts, ", "));
         vts << vec.back();
     }
     return "[" + vts.str() + "]";
