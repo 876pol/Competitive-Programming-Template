@@ -55,21 +55,6 @@ struct segment_tree {
     }
 
     /**
-     * Accesses the specified element
-     *
-     * @param pos index of the elemnt to return
-     * @returns value of element
-     */
-    T operator[](ll pos) { return tree[n + pos]; }
-
-    /**
-     * Gets size of segment tree
-     *
-     * @returns size of segment tree.
-     */
-    ll size() { return n; }
-
-    /**
      * Combines two values
      *
      * @param t1, t2 two values to combine.
