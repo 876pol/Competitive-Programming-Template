@@ -46,7 +46,8 @@ struct segment_tree {
      * @returns answer to the query.
      */
     T query(ll l, ll r) {
-        T ans = (*this)[l++];
+        T ans = tree[l + n];
+        l++;
         for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
             if ((l & 1) != 0) ans = combine(ans, tree[l++]);
             if ((r & 1) != 0) ans = combine(ans, tree[--r]);

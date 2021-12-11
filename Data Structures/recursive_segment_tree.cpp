@@ -25,7 +25,7 @@ struct segment_tree {
     }
 
     /**
-     * Utility combineunction for the Constructor
+     * Utility function for the constructor
      */
     void build(vector<T> &a, ll v, ll tl, ll tr) {
         if (tl == tr) {

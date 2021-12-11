@@ -18,6 +18,7 @@ ll power(ll x, ll y) {
         x = x * x;
     }
 }
+
 /**
  * Returns x ^ y % p (x to the power of y mod p)
  *
