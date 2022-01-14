@@ -16,10 +16,10 @@ using namespace __gnu_pbds;
 #define vvll vector<vector<long long>>
 #define vpll vector<pair<long long, long long>>
 #define vec vector
-#define ordered_set                                          \
+#define indexed_set                                          \
     tree<long long, null_type, less<long long>, rb_tree_tag, \
          tree_order_statistics_node_update>
-#define ordered_map                                     \
+#define indexed_map                                     \
     tree<pair<long long, long long>, null_type,         \
          less<pair<long long, long long>>, rb_tree_tag, \
          tree_order_statistics_node_update>
