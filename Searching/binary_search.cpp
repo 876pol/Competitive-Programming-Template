@@ -13,7 +13,7 @@ using namespace std;
 bool binary_search(vector<ll> &arr, ll x) {
     ll a = 0, b = arr.size() - 1;
     while (a <= b) {
-        ll k = (a + b) / 2;
+        ll k = a + (b - a) / 2;
         if (arr[k] == x) {
             return true;
         }

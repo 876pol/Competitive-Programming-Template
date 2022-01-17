@@ -5,26 +5,23 @@ using namespace std;
 
 /**
  * Iterative Segment Tree class
- *
- * @tparam T class for the Segment Tree to contain.
  */
-template <class T>
 struct segment_tree {
     ll n;
-    vector<T> tree;
+    vector<ll> tree;
 
     /**
      * Class Constructor
      *
      * @param arr array to build the Segment Tree from.
      */
-    segment_tree(vector<T> &arr) {
+    segment_tree(vector<ll> &arr) {
         n = arr.size();
         tree.resize(2 * n);
         if (!n) return;
         copy(arr.begin(), arr.end(), tree.begin() + n);
         for (ll i = n - 1; i > 0; --i)
-            tree[i] = combine(tree[i << 1], tree[i << 1 | 1]);
+            tree[i] = tree[i << 1] + tree[i << 1 | 1];
     }
 
     /**
@@ -33,10 +30,10 @@ struct segment_tree {
      * @param index index of array to change.
      * @param value new value for index.
      */
-    void update(ll index, T &value) {
+    void update(ll index, ll value) {
         tree[index += n] = value;
         for (; index > 1; index >>= 1)
-            tree[index >> 1] = combine(tree[index], tree[index ^ 1]);
+            tree[index >> 1] = tree[index] + tree[index ^ 1];
     }
 
     /**
@@ -45,20 +42,13 @@ struct segment_tree {
      * @param l, r returns query in range [l, r).
      * @returns answer to the query.
      */
-    T query(ll l, ll r) {
-        T ans = tree[l + n];
+    ll query(ll l, ll r) {
+        ll ans = tree[l + n];
         l++;
         for (l += n, r += n; l < r; l >>= 1, r >>= 1) {
-            if ((l & 1) != 0) ans = combine(ans, tree[l++]);
-            if ((r & 1) != 0) ans = combine(ans, tree[--r]);
+            if ((l & 1) != 0) ans += tree[l++];
+            if ((r & 1) != 0) ans += tree[--r];
         }
         return ans;
     }
-
-    /**
-     * Combines two values
-     *
-     * @param t1, t2 two values to combine.
-     */
-    T combine(T &t1, T &t2) { return t1 + t2; }
 };
