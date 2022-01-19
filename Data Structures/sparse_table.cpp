@@ -3,17 +3,9 @@ using namespace std;
 
 #define ll long long
 
-/**
- * Sparse Table class for static RMQ (range minimum query)
- */
 struct sparse_table {
     vector<vector<ll>> table;
 
-    /**
-     * Class Constructor
-     *
-     * @param a array to build the Sparse Table from.
-     */
     sparse_table(vector<ll> a) {
         ll n = a.size() + 1;
         ll h = ceil(log2(n));
@@ -27,12 +19,6 @@ struct sparse_table {
         }
     }
 
-    /**
-     * Query array in range
-     *
-     * @param l, r range [l, r) to query.
-     * @returns answer to the query.
-     */
     ll query(ll l, ll r) {
         if (r - l == 0) return 0;
         ll p = 31 - __builtin_clz(r - l);

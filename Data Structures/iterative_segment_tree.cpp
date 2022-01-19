@@ -3,18 +3,10 @@ using namespace std;
 
 #define ll long long
 
-/**
- * Iterative Segment Tree class
- */
 struct segment_tree {
     ll n;
     vector<ll> tree;
 
-    /**
-     * Class Constructor
-     *
-     * @param arr array to build the Segment Tree from.
-     */
     segment_tree(vector<ll> &arr) {
         n = arr.size();
         tree.resize(2 * n);
@@ -24,24 +16,12 @@ struct segment_tree {
             tree[i] = tree[i << 1] + tree[i << 1 | 1];
     }
 
-    /**
-     * Update value in array
-     *
-     * @param index index of array to change.
-     * @param value new value for index.
-     */
     void update(ll index, ll value) {
         tree[index += n] = value;
         for (; index > 1; index >>= 1)
             tree[index >> 1] = tree[index] + tree[index ^ 1];
     }
 
-    /**
-     * Query array in range
-     *
-     * @param l, r returns query in range [l, r).
-     * @returns answer to the query.
-     */
     ll query(ll l, ll r) {
         ll ans = tree[l + n];
         l++;

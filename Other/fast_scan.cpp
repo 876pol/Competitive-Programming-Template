@@ -3,11 +3,6 @@ using namespace std;
 
 #define ll long long
 
-/**
- * Reads an integer quickly.
- *
- * @param number integer to read
- */
 void fastscan(ll &number) {
     bool negative = false;
     ll c;

@@ -3,9 +3,6 @@ using namespace std;
 
 #define ll long long
 
-/**
- * Big Integer class
- */
 struct BigInt {
     int sign;
     string s;

@@ -1,10 +1,8 @@
 #include <bits/stdc++.h>
+using namespace std;
 
 #define ll long long
 
-/**
- * Segment Tree class with range add and assign.
- */
 struct segment_tree {
     struct node {
         ll val = 0;
@@ -15,20 +13,12 @@ struct segment_tree {
     ll n;
     vector<node> tree;
 
-    /**
-     * Class Constructor
-     *
-     * @param a array to build the Segment Tree from.
-     */
     segment_tree(vector<ll> &a) {
         this->n = a.size();
         tree.resize(n * 4);
         build(a, 1, 0, n - 1);
     }
 
-    /**
-     * Utility function for the constructor
-     */
     void build(vector<ll> &a, ll v, ll tl, ll tr) {
         tree[v].la = tree[v].ls = 0;
         if (tl == tr) {
@@ -42,15 +32,6 @@ struct segment_tree {
         return;
     }
 
-    /**
-     * Query array in range
-     *
-     * @param v set to 1
-     * @param tl set to 0
-     * @param tr set to n - 1
-     * @param l, r returns query in range [l, r].
-     * @returns answer to the query.
-     */
     ll query(ll v, ll tl, ll tr, ll l, ll r) {
         if (l > tr || r < tl) return 0;
         if (l <= tl && tr <= r) return tree[v].val;
@@ -60,15 +41,6 @@ struct segment_tree {
                query(v * 2 + 1, mid + 1, tr, l, r);
     }
 
-    /**
-     * Adds value to range
-     *
-     * @param v set to 1
-     * @param tl set to 0
-     * @param tr set to n - 1
-     * @param l, r of adds `val` to [l, r].
-     * @param val value to add.
-     */
     void add(ll v, ll tl, ll tr, ll l, ll r, ll val) {
         if (l > tr || r < tl) return;
         if (l <= tl && tr <= r) {
@@ -87,15 +59,6 @@ struct segment_tree {
         return;
     }
 
-    /**
-     * Sets value in range
-     *
-     * @param v set to 1
-     * @param tl set to 0
-     * @param tr set to n - 1
-     * @param l, r of sets `val` in [l, r].
-     * @param val value to set.
-     */
     void set(ll v, ll tl, ll tr, ll l, ll r, ll val) {
         if (l > tr || r < tl) return;
         if (l <= tl && tr <= r) {
@@ -112,9 +75,6 @@ struct segment_tree {
         return;
     }
 
-    /**
-     * Utility function for lazy propagation
-     */
     void pushdown(ll v, ll l, ll mid, ll r) {
         if (tree[v].ls != 0) {  // lazy: range set
             tree[v * 2].ls = tree[v * 2 + 1].ls = tree[v].ls;

@@ -3,15 +3,14 @@ using namespace std;
 
 #define ll long long
 
-/**
- * Performs Topological Sort with Kahn's Algorithm
- *
- * @param graph adjacency list representation of a graph.
- * @returns the topological sorting of `graph`.
- */
-vector<ll> kahn(vector<vector<ll>> &graph) {
+
+vector<vector<ll>> graph;
+vector<ll> in_degree, top_order;
+bool has_cycle;
+
+void kahn() {
     ll n = graph.size();
-    vector<ll> in_degree(n, 0);
+    in_degree.assign(n, 0);
     for (ll u = 0; u < n; u++) {
         for (auto itr = graph[u].begin(); itr != graph[u].end(); itr++)
             in_degree[*itr]++;
@@ -20,7 +19,6 @@ vector<ll> kahn(vector<vector<ll>> &graph) {
     for (ll i = 0; i < n; i++)
         if (in_degree[i] == 0) q.push(i);
     ll cnt = 0;
-    vector<ll> top_order;
     while (!q.empty()) {
         ll u = q.front();
         q.pop();
@@ -30,7 +28,6 @@ vector<ll> kahn(vector<vector<ll>> &graph) {
         cnt++;
     }
     if (cnt != n) {
-        return vector<ll>();
+        has_cycle = true;
     }
-    return top_order;
 }

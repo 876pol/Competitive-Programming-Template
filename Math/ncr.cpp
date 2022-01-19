@@ -3,13 +3,6 @@ using namespace std;
 
 #define ll long long
 
-/**
- * Returns nCr (n choose r)
- *
- * @param n first number of nCr.
- * @param r second number of nCr.
- * @returns nCr of `n` and `r`.
- */
 ll ncr(ll n, ll r) {
     if (r > n - r) r = n - r;
     ll C[r + 1];
@@ -20,14 +13,6 @@ ll ncr(ll n, ll r) {
     return C[r];
 }
 
-/**
- * Returns nCr % p (n choose r mod p)
- *
- * @param n first number of nCr.
- * @param r second number of nCr.
- * @param p modulus value.
- * @returns nCr mod p of `n`, `r`, and `p`.
- */
 ll ncrmodp(ll n, ll r, ll p) {
     if (r > n - r) r = n - r;
     ll C[r + 1];
