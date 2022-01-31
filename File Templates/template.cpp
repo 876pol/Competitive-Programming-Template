@@ -19,15 +19,10 @@ using namespace __gnu_pbds;
 #define indexed_set                                          \
     tree<long long, null_type, less<long long>, rb_tree_tag, \
          tree_order_statistics_node_update>
-#define indexed_map                                     \
-    tree<pair<long long, long long>, null_type,         \
-         less<pair<long long, long long>>, rb_tree_tag, \
-         tree_order_statistics_node_update>
-#define fast_map gp_hash_table
 
-#define FOR(i, s, e) for (long long int i = s; i < e; i++)
-#define CFOR(i, s, e) for (long long int i = s; i <= e; i++)
-#define RFOR(i, e, s) for (long long int i = e - 1; i >= s; i--)
+#define FOR(i, s, e) for (long long i = s; i < e; i++)
+#define CFOR(i, s, e) for (long long i = s; i <= e; i++)
+#define RFOR(i, e, s) for (long long i = e - 1; i >= s; i--)
 #define TRAV(a, c) for (auto a : c)
 #define ITER(it, cs, ce) for (auto it = cs; it != ce; it++)
 #define PB push_back
@@ -36,6 +31,7 @@ using namespace __gnu_pbds;
 #define all(x) x.begin(), x.end()
 #define rall(x) x.rbegin(), x.rend()
 #define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << x << endl
+mt19937_64 rng(100);
 
 template <class T>
 string to_string(vector<T> &vec) {
@@ -49,7 +45,6 @@ string to_string(vector<T> &vec) {
 }
 
 #define MOD 1000000007
-#define PI 3.1415926535897932384626433832795
 
 #define FASTIO ;
 #define PRECISION ;

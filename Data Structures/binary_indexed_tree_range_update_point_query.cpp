@@ -8,6 +8,12 @@ struct binary_indexed_tree {
     vector<ll> array;
     ll size;
 
+    binary_indexed_tree(ll sz) {
+        size = sz + 1;
+        bit.assign(size, 0);
+        array.assign(size, 0);
+    }
+
     binary_indexed_tree(vector<ll> a) {
         size = a.size() + 1;
         bit.assign(size, 0);
