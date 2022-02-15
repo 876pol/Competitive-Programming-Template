@@ -4,7 +4,7 @@ using namespace std;
 
 #define ll long long
 #define vec vector
-#define FOR(i, s, e) for (long long int i = s; i < e; i++)
+#define FOR(i, s, e) for (ll i = s; i < e; i++)
 #define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << x << endl
 
 int main() {

@@ -11,25 +11,21 @@ using namespace __gnu_pbds;
 
 #define ll long long
 #define ld long double
-#define pll pair<long long, long long>
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
-#define vpll vector<pair<long long, long long>>
+#define pll pair<ll, ll>
+#define vll vector<ll>
+#define vvll vector<vector<ll>>
+#define vpll vector<pair<ll, ll>>
 #define vec vector
 #define indexed_set                                          \
-    tree<long long, null_type, less<long long>, rb_tree_tag, \
+    tree<ll, null_type, less<ll>, rb_tree_tag, \
          tree_order_statistics_node_update>
 
-#define FOR(i, s, e) for (long long i = s; i < e; i++)
-#define CFOR(i, s, e) for (long long i = s; i <= e; i++)
-#define RFOR(i, e, s) for (long long i = e - 1; i >= s; i--)
+#define FOR(i, s, e) for (ll i = s; i < e; i++)
+#define CFOR(i, s, e) for (ll i = s; i <= e; i++)
+#define RFOR(i, e, s) for (ll i = e - 1; i >= s; i--)
 #define TRAV(a, c) for (auto a : c)
-#define ITER(it, cs, ce) for (auto it = cs; it != ce; it++)
 #define PB push_back
-#define MP make_pair
-#define EB emplace_back
 #define all(x) x.begin(), x.end()
-#define rall(x) x.rbegin(), x.rend()
 #define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << x << endl
 mt19937_64 rng(100);
 
@@ -73,16 +69,16 @@ int main() {
     solve();
 #endif
 #ifdef MULTIPLE
-    int t;
+    ll t;
     cin >> t;
-    for (int i = 1; i <= t; i++) {
+    for (ll i = 1; i <= t; i++) {
         solve();
     }
 #endif
 #ifdef GOOGLE
-    int t;
+    ll t;
     cin >> t;
-    for (int i = 1; i <= t; i++) {
+    for (ll i = 1; i <= t; i++) {
         cout << "Case #" << i << ": ";
         solve();
     }
