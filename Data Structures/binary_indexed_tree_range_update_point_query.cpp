@@ -5,20 +5,17 @@ using namespace std;
 
 struct binary_indexed_tree {
     vector<ll> bit;
-    vector<ll> array;
     ll size;
 
     binary_indexed_tree(ll sz) {
         size = sz + 1;
         bit.assign(size, 0);
-        array.assign(size, 0);
     }
 
     binary_indexed_tree(vector<ll> a) {
         size = a.size() + 1;
         bit.assign(size, 0);
-        array.assign(size, 0);
-        for (size_t i = 0; i < a.size(); i++) range_update(i, i, a[i]);
+        for (ll i = 0; i < a.size(); i++) range_update(i, i, a[i]);
     }
 
     ll query(ll r) {
@@ -28,7 +25,6 @@ struct binary_indexed_tree {
     }
 
     void update(ll idx, ll delta) {
-        array[idx] += delta;
         for (++idx; idx < size; idx += idx & -idx)
             bit[idx] += delta;
     }
