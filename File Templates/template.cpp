@@ -1,5 +1,5 @@
-#pragma GCC optimize("Ofast,no-stack-protector,unroll-loops,fast-math,O3")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("avx2")
 
 #include <bits/stdc++.h>
 
@@ -27,17 +27,13 @@ using namespace __gnu_pbds;
 #define PB push_back
 #define all(x) x.begin(), x.end()
 #define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << x << endl
-mt19937_64 rng(100);
 
 template <class T>
-string to_string(vector<T> &vec) {
-    std::ostringstream vts;
-    if (!vec.empty()) {
-        std::copy(vec.begin(), vec.end() - 1,
-                  std::ostream_iterator<T>(vts, ", "));
-        vts << vec.back();
-    }
-    return "[" + vts.str() + "]";
+string to_string(T s, T e) {
+    if (s == e) return "[]";
+    string ret = "[" + to_string(*s++);
+    while (s != e) ret += ", " + to_string(*s++);
+    return ret + "]";
 }
 
 #define MOD 1000000007

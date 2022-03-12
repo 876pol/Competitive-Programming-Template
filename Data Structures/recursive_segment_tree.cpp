@@ -3,7 +3,6 @@ using namespace std;
 
 #define ll long long
 
-
 struct segment_tree {
     ll n;
     vector<ll> t;
