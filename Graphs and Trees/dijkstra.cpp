@@ -14,7 +14,7 @@ void dijkstra(ll start) {
     dist.assign(n + 1, LLONG_MAX);
     visited.assign(n + 1, 0);
     dist[start] = 0;
-    queue.push(make_pair(0, start));
+    queue.push({0, start});
     while (!queue.empty()) {
         ll a = queue.top().second;
         queue.pop();
@@ -24,7 +24,7 @@ void dijkstra(ll start) {
             ll w = u.first, b = u.second;
             if (dist[a] != LLONG_MAX && dist[a] + w < dist[b]) {
                 dist[b] = dist[a] + w;
-                queue.push(make_pair(dist[b], b));
+                queue.push({dist[b], b});
             }
         }
     }
