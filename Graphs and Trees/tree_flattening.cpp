@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define ll long long
+using ll = long long;
 
 
 // data structure for query + update, can be swapped depending on need

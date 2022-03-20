@@ -2,8 +2,9 @@
 
 using namespace std;
 
-#define ll long long
-#define vec vector
+using ll = long long;
+using vec = vector;
+
 #define FOR(i, s, e) for (ll i = s; i < e; i++)
 #define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << x << endl
 

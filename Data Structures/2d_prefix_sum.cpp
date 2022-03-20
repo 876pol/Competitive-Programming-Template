@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long
+using ll = long long;
 
 struct prefix_sum_2d {
     ll n, m;

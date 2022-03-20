@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long
+using ll = long long;
 
 ll n;
 vector<vector<pair<ll, ll>>> graph;  // weight, dest

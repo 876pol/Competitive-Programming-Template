@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long
+using ll = long long;
 
 ll compute_hash(string const& s) {
     const ll p = 31;

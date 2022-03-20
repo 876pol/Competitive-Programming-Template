@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long
+using ll = long long;
 
 ll n;
 vector<pair<pair<ll, ll>, ll>> edges;  // start, end, weight

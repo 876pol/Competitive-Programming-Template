@@ -9,16 +9,17 @@
 using namespace std;
 using namespace __gnu_pbds;
 
-#define ll long long
-#define ld long double
-#define pll pair<ll, ll>
-#define vll vector<ll>
-#define vvll vector<vector<ll>>
-#define vpll vector<pair<ll, ll>>
-#define vec vector
-#define indexed_set                                          \
-    tree<ll, null_type, less<ll>, rb_tree_tag, \
-         tree_order_statistics_node_update>
+using ll = long long;
+using ld = long double;
+using pll = pair<ll, ll>;
+template <class T>
+using vec = vector<T>;
+using vll = vector<ll>;
+using vvll = vector<vector<ll>>;
+using vpll = vector<pair<ll, ll>>;
+template <class T>
+using indexed_set =
+    tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define FOR(i, s, e) for (ll i = s; i < e; i++)
 #define CFOR(i, s, e) for (ll i = s; i <= e; i++)
@@ -37,6 +38,7 @@ string to_string(T s, T e) {
 }
 
 #define MOD 1000000007
+#define PI 3.1415926535897932384626433832795
 
 #define FASTIO ;
 #define PRECISION ;
