@@ -20,10 +20,13 @@ using vpll = vector<pair<ll, ll>>;
 template <class T>
 using indexed_set =
     tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+template <class K, class R>
+using indexed_map =
+    tree<K, R, less<K>, rb_tree_tag, tree_order_statistics_node_update>;
 
-#define FOR(i, s, e) for (ll i = s; i < e; i++)
-#define CFOR(i, s, e) for (ll i = s; i <= e; i++)
-#define RFOR(i, e, s) for (ll i = e - 1; i >= s; i--)
+#define FOR(i, s, e) for (int i = s; i < e; i++)
+#define CFOR(i, s, e) for (int i = s; i <= e; i++)
+#define RFOR(i, e, s) for (int i = e - 1; i >= s; i--)
 #define TRAV(a, c) for (auto a : c)
 #define PB push_back
 #define all(x) x.begin(), x.end()
