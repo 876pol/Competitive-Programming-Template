@@ -57,7 +57,6 @@ int main() {
 #ifdef FASTIO
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    cout.tie(NULL);
 #endif
 #ifdef PRECISION
     cout << fixed << setprecision(10);
