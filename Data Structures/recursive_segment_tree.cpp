@@ -9,7 +9,7 @@ struct segment_tree {
 
     segment_tree(vector<ll> &a) {
         n = a.size();
-        t.resize(4 * n + 5);
+        t.resize(2 * n + 5);
         build(a, 1, 0, n - 1);
     }
 
@@ -18,9 +18,9 @@ struct segment_tree {
             t[v] = a[tl];
         } else {
             ll tm = (tl + tr) / 2;
-            build(a, v * 2, tl, tm);
-            build(a, v * 2 + 1, tm + 1, tr);
-            t[v] = t[v * 2] + t[v * 2 + 1];
+            build(a, v + 1, tl, tm);
+            build(a, v + 2 * (tm - tl + 1), tm + 1, tr);
+            t[v] = t[v + 1] + t[v + 2 * (tm - tl + 1)];
         }
     }
 
@@ -30,8 +30,8 @@ struct segment_tree {
             return t[v];
         }
         ll tm = (tl + tr) / 2;
-        return query(v * 2, tl, tm, l, min(r, tm)) +
-               query(v * 2 + 1, tm + 1, tr, max(l, tm + 1), r);
+        return query(v + 1, tl, tm, l, min(r, tm)) +
+               query(v + 2 * (tm - tl + 1), tm + 1, tr, max(l, tm + 1), r);
     }
 
     void update(ll v, ll tl, ll tr, ll pos, ll new_val) {
@@ -40,10 +40,10 @@ struct segment_tree {
         } else {
             ll tm = (tl + tr) / 2;
             if (pos <= tm)
-                update(v * 2, tl, tm, pos, new_val);
+                update(v + 1, tl, tm, pos, new_val);
             else
-                update(v * 2 + 1, tm + 1, tr, pos, new_val);
-            t[v] = t[v * 2] + t[v * 2 + 1];
+                update(v + 2 * (tm - tl + 1), tm + 1, tr, pos, new_val);
+            t[v] = t[v + 1] + t[v + 2 * (tm - tl + 1)];
         }
     }
 };
