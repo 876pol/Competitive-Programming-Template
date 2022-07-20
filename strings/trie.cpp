@@ -3,50 +3,48 @@ using namespace std;
 
 using ll = long long;
 
-struct node {
-    char val;
-    map<char, node*> m;
-    bool is_word;
-
-    node(char c) {
-        val = c;
-        is_word = false;
-    }
-};
-
 struct Trie {
-    node* root;
+    vector<vector<ll>> graph;
+    vector<bool> end;
 
-    Trie() { 
-        root = new node(' '); 
+    Trie() {
+        graph.assign(1, vector<ll>(26, -1));
+        end.assign(1, false);
     }
 
-    void insert(string word) {
-        node* curr = root;
-        for (auto& c : word) {
-            if (curr->m[c] == NULL) {
-                node* next = new node(c);
-                curr->m[c] = next;
+    void insert(string s) {
+        ll curr = 0;
+        for (ll i = 0; i < s.size(); i++) {
+            if (graph[curr][s[i] - 'a'] == -1) {
+                graph[curr][s[i] - 'a'] = graph.size();
+                curr = graph.size();
+                graph.push_back(vector<ll>(26, -1));
+                end.push_back(false);
+            } else {
+                curr = graph[curr][s[i] - 'a'];
             }
-            curr = curr->m[c];
         }
-        curr->is_word = true;
+        end[curr] = true;
     }
 
-    bool search(string word) {
-        node* curr = root;
-        for (auto& c : word) {
-            if (curr->m[c] == NULL) return false;
-            curr = curr->m[c];
+    bool search(string s) {
+        ll curr = 0;
+        for (ll i = 0; i < s.size(); i++) {
+            if (graph[curr][s[i] - 'a'] == -1) {
+                return false;
+            }
+            curr = graph[curr][s[i] - 'a'];
         }
-        return curr->is_word;
+        return end[curr];
     }
 
-    bool starts_with(string prefix) {
-        node* curr = root;
-        for (auto& c : prefix) {
-            if (curr->m[c] == NULL) return false;
-            curr = curr->m[c];
+    bool starts_with(string s) {
+        ll curr = 0;
+        for (ll i = 0; i < s.size(); i++) {
+            if (graph[curr][s[i] - 'a'] == -1) {
+                return false;
+            }
+            curr = graph[curr][s[i] - 'a'];
         }
         return true;
     }
