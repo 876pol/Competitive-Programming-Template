@@ -10,9 +10,9 @@ struct segment_tree {
 
     segment_tree(vector<ll> &a) {
         size = a.size();
-        tree.assign(size * 4, 0);
-        lazy_add.assign(size * 4, 0);
-        lazy_set.assign(size * 4, 0);
+        tree.assign(size * 2, 0);
+        lazy_add.assign(size * 2, 0);
+        lazy_set.assign(size * 2, 0);
         build(a, 1, 0, size - 1);
     }
 
@@ -21,9 +21,9 @@ struct segment_tree {
             tree[v] = a[tl];
         } else {
             ll tm = (tl + tr) / 2;
-            build(a, v * 2, tl, tm);
-            build(a, v * 2 + 1, tm + 1, tr);
-            tree[v] = tree[v * 2] + tree[v * 2 + 1];
+            build(a, v + 1, tl, tm);
+            build(a, v + 2 * (tm - tl + 1), tm + 1, tr);
+            tree[v] = tree[v + 1] + tree[v + 2 * (tm - tl + 1)];
         }
     }
 
@@ -34,7 +34,8 @@ struct segment_tree {
         }
         ll tm = (tl + tr) / 2;
         push_down(v, tl, tm, tr);
-        return query(v * 2, tl, tm, l, r) + query(v * 2 + 1, tm + 1, tr, l, r);
+        return query(v + 1, tl, tm, l, r) +
+               query(v + 2 * (tm - tl + 1), tm + 1, tr, l, r);
     }
 
     void add(ll v, ll tl, ll tr, ll l, ll r, ll val) {
@@ -49,9 +50,9 @@ struct segment_tree {
         } else {
             ll tm = (tl + tr) / 2;
             push_down(v, tl, tm, tr);
-            add(v * 2, tl, tm, l, r, val);
-            add(v * 2 + 1, tm + 1, tr, l, r, val);
-            tree[v] = tree[v * 2] + tree[v * 2 + 1];
+            add(v + 1, tl, tm, l, r, val);
+            add(v + 2 * (tm - tl + 1), tm + 1, tr, l, r, val);
+            tree[v] = tree[v + 1] + tree[v + 2 * (tm - tl + 1)];
         }
     }
 
@@ -64,34 +65,34 @@ struct segment_tree {
         } else {
             ll tm = (tl + tr) / 2;
             push_down(v, tl, tm, tr);
-            set(v * 2, tl, tm, l, r, val);
-            set(v * 2 + 1, tm + 1, tr, l, r, val);
-            tree[v] = tree[v * 2] + tree[v * 2 + 1];
+            set(v + 1, tl, tm, l, r, val);
+            set(v + 2 * (tm - tl + 1), tm + 1, tr, l, r, val);
+            tree[v] = tree[v + 1] + tree[v + 2 * (tm - tl + 1)];
         }
     }
 
-    void push_down(ll v, ll l, ll tm, ll r) {
+    void push_down(ll v, ll tl, ll tm, ll tr) {
         if (lazy_set[v] != 0) {
-            lazy_set[v * 2] = lazy_set[v * 2 + 1] = lazy_set[v];
-            tree[v * 2] = lazy_set[v] * (tm - l + 1);
-            tree[v * 2 + 1] = lazy_set[v] * (r - tm);
-            lazy_add[v * 2] = lazy_add[v * 2 + 1] = 0;
+            lazy_set[v + 1] = lazy_set[v + 2 * (tm - tl + 1)] = lazy_set[v];
+            tree[v + 1] = lazy_set[v] * (tm - tl + 1);
+            tree[v + 2 * (tm - tl + 1)] = lazy_set[v] * (tr - tm);
+            lazy_add[v + 1] = lazy_add[v + 2 * (tm - tl + 1)] = 0;
             lazy_set[v] = 0;
         } else if (lazy_add[v] != 0) {
-            if (lazy_set[v * 2] == 0) {
-                lazy_add[v * 2] += lazy_add[v];
+            if (lazy_set[v + 1] == 0) {
+                lazy_add[v + 1] += lazy_add[v];
             } else {
-                lazy_set[v * 2] += lazy_add[v];
-                lazy_add[v * 2] = 0;
+                lazy_set[v + 1] += lazy_add[v];
+                lazy_add[v + 1] = 0;
             }
-            if (lazy_set[v * 2 + 1] == 0) {
-                lazy_add[v * 2 + 1] += lazy_add[v];
+            if (lazy_set[v + 2 * (tm - tl + 1)] == 0) {
+                lazy_add[v + 2 * (tm - tl + 1)] += lazy_add[v];
             } else {
-                lazy_set[v * 2 + 1] += lazy_add[v];
-                lazy_add[v * 2 + 1] = 0;
+                lazy_set[v + 2 * (tm - tl + 1)] += lazy_add[v];
+                lazy_add[v + 2 * (tm - tl + 1)] = 0;
             }
-            tree[v * 2] += lazy_add[v] * (tm - l + 1);
-            tree[v * 2 + 1] += lazy_add[v] * (r - tm);
+            tree[v + 1] += lazy_add[v] * (tm - tl + 1);
+            tree[v + 2 * (tm - tl + 1)] += lazy_add[v] * (tr - tm);
             lazy_add[v] = 0;
         }
     }

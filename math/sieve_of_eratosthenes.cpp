@@ -11,7 +11,10 @@ void sieve_of_eratosthenes(ll n) {
     prime[1] = false;
     for (ll i = 4; i <= n; i += 2) prime[i] = false;
     for (ll p = 3; p * p <= n; p += 2) {
-        if (prime[p])
-            for (ll i = p * p; i <= n; i += p) prime[i] = false;
+        if (prime[p]) {
+            for (ll i = p * p; i <= n; i += p) {
+                prime[i] = false;
+            }
+        }
     }
 }

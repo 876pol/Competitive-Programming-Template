@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define PROBLEM "https://cses.fi/problemset/task/2134/"
-
 using ll = long long;
 
 struct segment_tree {
@@ -54,105 +52,82 @@ struct segment_tree {
     }
 };
 
-// parent of node, depth of node, heavy child, start of heavy
-// segment, corresponding position of seg_arr, values on each
-// node, values in segment tree.
-ll n, q;
-vector<ll> parent, depth, heavy, head, a, seg_arr, pos;
-vector<vector<ll>> graph;
-ll curr_pos;
-segment_tree st;
 
-ll dfs(ll curr) {
-    ll size = 1;
-    ll max_size = 0;
-    for (auto sub : graph[curr]) {
-        if (sub == parent[curr]) continue;
-        parent[sub] = curr;
-        depth[sub] = depth[curr] + 1;
-        ll sub_size = dfs(sub);
-        size += sub_size;
-        if (sub_size > max_size) {
-            max_size = sub_size;
-            heavy[curr] = sub;
+struct HLD {
+    ll size, curr_pos;
+    // parent of node, depth of node, heavy child, start of heavy
+    // segment, corresponding position of seg_arr, values on each
+    // node, values in segment tree.
+    vector<ll> parent, depth, heavy, head, seg_arr, pos;
+    segment_tree st;
+
+    HLD(vector<vector<ll>> &graph, vector<ll> &a) {
+        size = graph.size();
+        parent.assign(size, 0);
+        depth.assign(size, 0);
+        heavy.assign(size, -1);
+        head.assign(size, 0);
+        seg_arr.assign(size, 0);
+        pos.assign(size, 0);
+        curr_pos = 0;
+
+        dfs(1, graph);
+        decompose(1, 1, graph);
+
+        for (ll i = 1; i < size; i++) {
+            seg_arr[pos[i]] = a[i];
+        }
+        st = segment_tree(seg_arr);
+    }
+
+    ll dfs(ll curr, vector<vector<ll>> &graph) {
+        ll size = 1;
+        ll max_size = 0;
+        for (auto sub : graph[curr]) {
+            if (sub == parent[curr]) continue;
+            parent[sub] = curr;
+            depth[sub] = depth[curr] + 1;
+            ll sub_size = dfs(sub, graph);
+            size += sub_size;
+            if (sub_size > max_size) {
+                max_size = sub_size;
+                heavy[curr] = sub;
+            }
+        }
+        return size;
+    }
+
+    void decompose(ll curr, ll head_node, vector<vector<ll>> &graph) {
+        head[curr] = head_node;
+        pos[curr] = curr_pos++;
+        if (heavy[curr] != -1) {
+            decompose(heavy[curr], head_node, graph);
+        }
+        for (auto sub : graph[curr]) {
+            if (sub != parent[curr] && sub != heavy[curr]) {
+                decompose(sub, sub, graph);
+            }
         }
     }
-    return size;
-}
 
-void decompose(ll curr, ll head_node) {
-    head[curr] = head_node;
-    pos[curr] = curr_pos++;
-    if (heavy[curr] != -1) {
-        decompose(heavy[curr], head_node);
-    }
-    for (ll sub : graph[curr]) {
-        if (sub != parent[curr] && sub != heavy[curr]) {
-            decompose(sub, sub);
+    ll query(ll l, ll r) {
+        ll res = 0;
+        for (; head[l] != head[r]; r = parent[head[r]]) {
+            if (depth[head[l]] > depth[head[r]]) {
+                swap(l, r);
+            }
+            ll curr_path = st.query(1, 0, size - 1, pos[head[r]], pos[r]);
+            res = max(res, curr_path);
         }
-    }
-}
-
-ll query(ll l, ll r) {
-    ll res = 0;
-    for (; head[l] != head[r]; r = parent[head[r]]) {
-        if (depth[head[l]] > depth[head[r]]) {
+        if (depth[l] > depth[r]) {
             swap(l, r);
         }
-        ll curr_heavy_path_max = st.query(1, 0, n, pos[head[r]], pos[r]);
-        res = max(res, curr_heavy_path_max);
+        ll curr_path = st.query(1, 0, size - 1, pos[l], pos[r]);
+        res = max(res, curr_path);
+        return res;
     }
-    if (depth[l] > depth[r]) {
-        swap(l, r);
-    }
-    ll last_heavy_path_max = st.query(1, 0, n, pos[l], pos[r]);
-    res = max(res, last_heavy_path_max);
-    return res;
-}
 
-void update(ll index, ll value) {
-    st.update(1, 0, n, pos[index], value);
-}
-
-void preprocess() {
-    parent.assign(n + 1, 0);
-    depth.assign(n + 1, 0);
-    heavy.assign(n + 1, -1);
-    head.assign(n + 1, 0);
-    seg_arr.assign(n + 1, 0);
-    pos.assign(n + 1, 0);
-    curr_pos = 0;
-
-    dfs(1);
-    decompose(1, 1);
-
-    for (ll i = 1; i <= n; i++) {
-        seg_arr[pos[i]] = a[i];
+    void update(ll index, ll value) {
+        st.update(1, 0, size - 1, pos[index], value);
     }
-    st = segment_tree(seg_arr);
-}
-
-int main() {
-    cin >> n >> q;
-    a.assign(n + 1, 0);
-    graph.assign(n + 1, vector<ll>());
-    for (ll i = 1; i <= n; i++) {
-        cin >> a[i];
-    }
-    for (ll i = 0; i < n - 1; i++) {
-        ll u, v;
-        cin >> u >> v;
-        graph[u].push_back(v);
-        graph[v].push_back(u);
-    }
-    preprocess();
-    for (ll i = 0; i < q; i++) {
-        ll op, l, r;
-        cin >> op >> l >> r;
-        if (op == 1) {
-            update(l, r);
-        } else {
-            cout << query(l, r) << " \n"[i == q - 1];
-        }
-    }
-}
+};

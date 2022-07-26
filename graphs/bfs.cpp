@@ -7,10 +7,10 @@ ll n;
 vector<vector<ll>> graph;
 vector<ll> dist;
 
-void bfs(ll start) {
+void bfs() {
     dist.assign(n + 1, -1);
     queue<ll> queue;
-    queue.push(start);
+    queue.push(1);
     ll curr = 0;
     while (!queue.empty()) {
         for (ll i = 0, t = queue.size(); i < t; i++) {

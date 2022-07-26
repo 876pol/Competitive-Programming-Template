@@ -8,9 +8,9 @@ vector<pair<pair<ll, ll>, ll>> edges;  // start, end, weight
 vector<ll> dist;
 bool negative_cycle;
 
-void bellman_ford(ll start) {
+void bellman_ford() {
     dist.assign(n + 1, LLONG_MAX);
-    dist[start] = 0;
+    dist[1] = 0;
     for (ll i = 0; i < n; i++) {
         bool not_changed = true;
         for (auto edge : edges) {
