@@ -4,75 +4,93 @@ using namespace std;
 
 using ll = long long;
 
-
-struct binary_indexed_tree {
-    vector<ll> bit;
+struct segment_tree {
     ll size;
+    vector<ll> tree;
 
-    binary_indexed_tree() {
+    segment_tree() {
         size = 0;
     }
 
-    binary_indexed_tree(ll sz) {
-        size = sz + 1;
-        bit.assign(size, 0);
+    segment_tree(vector<ll> &a) {
+        size = a.size();
+        tree.resize(2 * size);
+        build(a, 1, 0, size - 1);
     }
 
-    binary_indexed_tree(vector<ll> a) {
-        size = a.size() + 1;
-        bit.assign(size, 0);
-        for (ll i = 0; i < a.size(); i++) {
-            update(i, a[i]);
+    void build(vector<ll> &a, ll v, ll tl, ll tr) {
+        if (tl == tr) {
+            tree[v] = a[tl];
+        } else {
+            ll tm = (tl + tr) / 2;
+            build(a, v + 1, tl, tm);
+            build(a, v + 2 * (tm - tl + 1), tm + 1, tr);
+            tree[v] = tree[v + 1] + tree[v + 2 * (tm - tl + 1)];
         }
     }
 
-    ll query(ll r) {
-        ll ret = 0;
-        for (ll i = r + 1; i > 0; i -= i & -i) {
-            ret = ret + bit[i];
+    ll query(ll v, ll tl, ll tr, ll l, ll r) {
+        if (l > tr || r < tl) return 0;
+        if (l <= tl && tr <= r) {
+            return tree[v];
         }
-        return ret;
+        ll tm = (tl + tr) / 2;
+        return query(v + 1, tl, tm, l, r) +
+               query(v + 2 * (tm - tl + 1), tm + 1, tr, l, r);
     }
 
-    ll query(ll l, ll r) { 
-        return query(r) - query(l - 1);
-    }
-
-    void update(ll index, ll delta) {
-        for (ll i = index + 1; i < size; i += i & -i) {
-            bit[i] = bit[i] + delta;
+    void update(ll v, ll tl, ll tr, ll index, ll value) {
+        if (tl == tr) {
+            tree[v] = value;
+        } else {
+            ll tm = (tl + tr) / 2;
+            if (index <= tm) {
+                update(v + 1, tl, tm, index, value);
+            } else {
+                update(v + 2 * (tm - tl + 1), tm + 1, tr, index, value);
+            }
+            tree[v] = tree[v + 1] + tree[v + 2 * (tm - tl + 1)];
         }
     }
 };
 
 struct tree_flattening {
-    vector<ll> id, c, sz, val, arr;  // id of node, id to index, size of subtree,
-                                 // values in euler tour, values in each node
-    ll ind;
-    binary_indexed_tree bit;
-    
-    tree_flattening(vector<vector<ll>> &graph) {
-        ll n = graph.size();
+    ll size, ind;
+    // id of node, location of node, size of subtree, values in euler tour.
+    vector<ll> node_id, loc, sub_size, value;
+    segment_tree st;
+
+    tree_flattening(vector<vector<ll>> &graph, vector<ll> &arr) {
+        size = graph.size();
         ind = 0;
-        id.assign(n, 0);
-        c.assign(n, 0);
-        sz.assign(n, 0);
-        val.assign(n, 0);
-        dfs(1, -1, graph);
-        bit = binary_indexed_tree(val);
+        node_id.assign(size, 0);
+        loc.assign(size, 0);
+        sub_size.assign(size, 0);
+        value.assign(size, 0);
+        dfs(1, -1, graph, arr);
+        st = segment_tree(value);
     }
 
-    ll dfs(ll curr, ll prev, vector<vector<ll>> &graph) {
+    ll dfs(ll curr, ll prev, vector<vector<ll>> &graph, vector<ll> &arr) {
         ll size = 1;
-        id[ind] = curr;
-        c[curr] = ind;
-        val[c[curr]] = arr[curr];
+        node_id[ind] = curr;
+        loc[curr] = ind;
+        value[loc[curr]] = arr[curr];
         ind++;
         for (auto sub : graph[curr]) {
             if (sub != prev) {
-                size += dfs(sub, curr);
+                size += dfs(sub, curr, graph, arr);
             }
         }
-        return sz[c[curr]] = size;
+        return sub_size[loc[curr]] = size;
+    }
+
+    ll query(ll sub_tree) {
+        return st.query(1, 0, size - 1, loc[sub_tree],
+                        loc[sub_tree] + sub_size[loc[sub_tree]] - 1);
+    }
+
+    void update(ll node, ll new_value) {
+        st.update(1, 0, size - 1, loc[node], new_value);
     }
 };
