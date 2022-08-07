@@ -15,8 +15,9 @@ using pll = pair<ll, ll>;
 template <class T>
 using vec = vector<T>;
 using vll = vector<ll>;
-using vvll = vector<vector<ll>>;
 using vpll = vector<pair<ll, ll>>;
+using vvll = vector<vector<ll>>;
+using vvpll = vector<vector<pair<ll, ll>>>;
 template <class T>
 using indexed_set =
     tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
@@ -30,7 +31,13 @@ using indexed_map =
 #define TRAV(a, c) for (auto a : c)
 #define PB push_back
 #define all(x) x.begin(), x.end()
-#define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << x << endl
+#define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << (x) << endl
+
+template <class K, class V>
+ostream &operator<<(ostream &os, pair<K, V> &x) {
+    os << "(" << x.first << ", " << x.second << ")";
+    return os;
+}
 
 template <class T>
 string to_string(T s, T e) {
@@ -41,17 +48,18 @@ string to_string(T s, T e) {
 }
 
 #define MOD 1000000007
-#define PI 3.1415926535897932384626433832795
+// #define MOD 998244353
 
 #define FASTIO ;
 #define PRECISION ;
-//#define FILE ;
+//#define FILE "file";
 
 #define SINGLE ;
 //#define MULTIPLE ;
 //#define GOOGLE ;
 
-void solve() {}
+void solve() {
+}
 
 int main() {
 #ifdef FASTIO
@@ -62,8 +70,8 @@ int main() {
     cout << fixed << setprecision(10);
 #endif
 #ifdef FILE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    freopen(FILE + ".in", "r", stdin);
+    freopen(FILE + ".out", "w", stdout);
 #endif
 #ifdef SINGLE
     solve();
