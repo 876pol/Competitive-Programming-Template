@@ -4,21 +4,27 @@ using namespace std;
 
 using ll = long long;
 
+template <class T>
 struct segment_tree {
     ll size;
-    vector<ll> tree;
+    vector<T> tree;
 
     segment_tree() {
         size = 0;
     }
 
-    segment_tree(vector<ll> &a) {
-        size = a.size();
-        tree.resize(2 * size);
+    segment_tree(ll size) {
+        this->size = size;
+        tree.assign(2 * size, T());
+    }
+
+    segment_tree(vector<T> &a) {
+        this->size = a.size();
+        tree.assign(2 * size, T());
         build(a, 1, 0, size - 1);
     }
 
-    void build(vector<ll> &a, ll v, ll tl, ll tr) {
+    void build(vector<T> &a, ll v, ll tl, ll tr) {
         if (tl == tr) {
             tree[v] = a[tl];
         } else {
@@ -29,8 +35,8 @@ struct segment_tree {
         }
     }
 
-    ll query(ll v, ll tl, ll tr, ll l, ll r) {
-        if (l > tr || r < tl) return 0;
+    T query(ll v, ll tl, ll tr, ll l, ll r) {
+        if (l > tr || r < tl) return T();
         if (l <= tl && tr <= r) {
             return tree[v];
         }
@@ -39,7 +45,7 @@ struct segment_tree {
                query(v + 2 * (tm - tl + 1), tm + 1, tr, l, r);
     }
 
-    void update(ll v, ll tl, ll tr, ll index, ll value) {
+    void update(ll v, ll tl, ll tr, ll index, T value) {
         if (tl == tr) {
             tree[v] = value;
         } else {

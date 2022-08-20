@@ -34,9 +34,8 @@ using indexed_map =
 #define dbg(x) cerr << "ln" << __LINE__ << ": " << #x << " = " << (x) << endl
 
 template <class K, class V>
-ostream &operator<<(ostream &os, pair<K, V> &x) {
-    os << "(" << x.first << ", " << x.second << ")";
-    return os;
+string to_string(pair<K, V> &x) {
+    return "(" + to_string(x.first) + ", " + to_string(x.second) + ")";
 }
 
 template <class T>

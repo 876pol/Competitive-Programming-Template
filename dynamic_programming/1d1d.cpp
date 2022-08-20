@@ -21,7 +21,8 @@ void _1d1d() {
             dq.pop_front();
         }
         dp[i] = cost(dq.front().first, i);
-        while (dq.size() && cost(i, dq.back().second.first) <=
+        dq.back().second.first = max(dq.back().second.first, i + 1);
+        while (dq.size() && cost(i + 1, dq.back().second.first) <=
                                 cost(dq.back().first, dq.back().second.first)) {
             dq.pop_back();
         }
