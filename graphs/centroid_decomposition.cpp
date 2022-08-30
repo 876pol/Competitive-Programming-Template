@@ -7,8 +7,7 @@ using ll = long long;
 struct centroid_decomposition {
     ll size;
     vector<set<ll>> graph;
-    vector<ll> parent;
-    vector<ll> sub_size;
+    vector<ll> parent, sub_size;
 
     centroid_decomposition(vector<vector<ll>> &graph) {
         size = graph.size();

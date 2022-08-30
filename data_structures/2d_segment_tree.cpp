@@ -23,17 +23,17 @@ struct segment_tree_2d {
     segment_tree_2d(vector<vector<T>> &a) {
         this->rows = a.size();
         this->columns = a[0].size();
-        tree.assign(4 * rows, vector<T>(4 * columns));
+        tree.assign(2 * rows, vector<T>(2 * columns));
         build_x(a, 1, 0, rows - 1);
     }
 
     void build_x(vector<vector<T>> &a, ll vx, ll tlx, ll trx) {
         if (tlx != trx) {
             ll tmx = (tlx + trx) / 2;
-            build_x(vx + 1, tlx, tmx);
-            build_x(vx + 2 * (tmx - tlx + 1), tmx + 1, trx);
+            build_x(a, vx + 1, tlx, tmx);
+            build_x(a, vx + 2 * (tmx - tlx + 1), tmx + 1, trx);
         }
-        build_y(vx, tlx, trx, 1, 0, columns - 1);
+        build_y(a, vx, tlx, trx, 1, 0, columns - 1);
     }
 
     void build_y(vector<vector<T>> &a, ll vx, ll tlx, ll trx, ll vy, ll tly,
@@ -48,8 +48,8 @@ struct segment_tree_2d {
             }
         } else {
             ll tmy = (tly + try_) / 2;
-            build_y(vx, tlx, trx, vy + 1, tly, tmy);
-            build_y(vx, tlx, trx, vy + 2 * (tmy - tly + 1), tmy + 1, try_);
+            build_y(a, vx, tlx, trx, vy + 1, tly, tmy);
+            build_y(a, vx, tlx, trx, vy + 2 * (tmy - tly + 1), tmy + 1, try_);
             tree[vx][vy] =
                 tree[vx][vy + 1] + tree[vx][vy + 2 * (tmy - tly + 1)];
         }
@@ -105,8 +105,8 @@ struct segment_tree_2d {
             if (y <= tmy) {
                 update_y(vx, tlx, trx, vy + 1, tly, tmy, x, y, new_val);
             } else {
-                update_y(vx, tlx, trx, vy + 2 * (tmy - tly + 1), tmy + 1, try_, x, y,
-                         new_val);
+                update_y(vx, tlx, trx, vy + 2 * (tmy - tly + 1), tmy + 1, try_,
+                         x, y, new_val);
             }
             tree[vx][vy] =
                 tree[vx][vy + 1] + tree[vx][vy + 2 * (tmy - tly + 1)];
