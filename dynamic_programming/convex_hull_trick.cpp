@@ -7,8 +7,8 @@ struct CHT {
     vector<ll> m, b;
 
     bool bad(ll l1, ll l2, ll l3) {
-        return (double)(b[l3] - b[l1]) * (m[l1] - m[l2]) >
-               (double)(b[l2] - b[l1]) * (m[l1] - m[l3]);
+        return (ld)(b[l3] - b[l1]) * (ld)(m[l1] - m[l2]) >
+               (ld)(b[l2] - b[l1]) * (ld)(m[l1] - m[l3]);
     }
 
     void add(ll slope, ll yint) {
@@ -27,16 +27,16 @@ struct CHT {
     }
 
     ll cost(ll x) {
-        ll l = 0, r = m.size() - 2, ans = LLONG_MAX;
+        ll l = 0, r = m.size() - 2, ans = LLONG_MIN;
         while (l <= r) {
             ll mid = (l + r) / 2;
-            if (f(mid, x) < f(mid + 1, x)) {
+            if (f(mid, x) > f(mid + 1, x)) {
                 r = mid - 1;
                 ans = f(mid, x);
             } else {
                 l = mid + 1;
             }
         }
-        return min(ans, f(m.size() - 1, x));
+        return max(ans, f(m.size() - 1, x));
     }
 };
