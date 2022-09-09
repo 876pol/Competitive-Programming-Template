@@ -6,7 +6,7 @@ using ll = long long;
 struct node {
     ll value = 0;
 
-    node operator+(const node &n1) { 
+    node operator+(const node &n1) {
         return {max(this->value, n1.value)};
     }
 };
@@ -29,8 +29,8 @@ struct sparse_table {
     }
 
     T query(ll l, ll r) {
-        if (r - l == 0) return T();
-        ll p = 63 - __builtin_clzll(r - l);
-        return table[p][l] + table[p][r - (1ll << p)];
+        if (r - l < 0) return T();
+        ll p = 63 - __builtin_clzll(r - l + 1);
+        return table[p][l] + table[p][r - (1ll << p) + 1];
     }
 };

@@ -31,7 +31,7 @@ using indexed_map =
 #define FOR(i, s, e) for (ll i = (ll)s; i < (ll)e; i++)
 #define CFOR(i, s, e) for (ll i = (ll)s; i <= (ll)e; i++)
 #define RFOR(i, e, s) for (ll i = (ll)e - 1; i >= (ll)s; i--)
-#define TRAV(a, c) for (auto a : c)
+#define TRAV(a, c) for (const auto &a : c)
 #define all(x) x.begin(), x.end()
 
 #define MOD 1000000007
