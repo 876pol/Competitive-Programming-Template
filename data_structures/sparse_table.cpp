@@ -16,7 +16,7 @@ struct sparse_table {
     vector<vector<T>> table;
 
     sparse_table(const vector<T> &a) {
-        ll n = a.size() + 1;
+        ll n = a.size();
         ll h = ceil(log2(n));
         table = vector<vector<T>>(h, vector<T>(n));
         for (ll i = 0; i < n; i++) table[0][i] = a[i];

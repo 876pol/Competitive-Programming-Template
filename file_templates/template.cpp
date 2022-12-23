@@ -5,6 +5,14 @@
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #define dbg(...)
+#define STRUCT_DBG1(...)
+#define STRUCT_DBG2(...)
+#define STRUCT_DBG3(...)
+#define STRUCT_DBG4(...)
+#define STRUCT_DBG5(...)
+#define STRUCT_DBG6(...)
+#define STRUCT_DBG7(...)
+#define STRUCT_DBG8(...)
 #else
 #include "lib/debug.h"
 #endif
@@ -24,9 +32,6 @@ using vvpll = vector<vector<pair<ll, ll>>>;
 template <class T>
 using indexed_set =
     tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
-template <class K, class R>
-using indexed_map =
-    tree<K, R, less<K>, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define FOR(i, s, e) for (ll i = (ll)s; i < (ll)e; i++)
 #define CFOR(i, s, e) for (ll i = (ll)s; i <= (ll)e; i++)
@@ -55,6 +60,7 @@ int main() {
 #endif
 #ifdef PRECISION
     cout << fixed << setprecision(10);
+    cerr << fixed << setprecision(10);
 #endif
 #ifdef FILE
     freopen((FILE + string(".in")).c_str(), "r", stdin);

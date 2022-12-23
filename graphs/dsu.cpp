@@ -12,7 +12,7 @@ struct DSU {
     DSU(ll size) {
         parent.resize(size);
         rank.resize(size);
-        for (ll i = 0; i < size; i++) parent[i] = i;
+        iota(parent.begin(), parent.end(), 0ll);
         this->size = size;
     }
 

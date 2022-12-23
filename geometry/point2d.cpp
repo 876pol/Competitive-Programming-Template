@@ -2,83 +2,128 @@
 using namespace std;
 
 using ll = long long;
-#define ld long double
+using ld = long double;
 
-struct point2d {
-    ll x, y;
+template <class F>
+struct point {
+    F x, y;
 
-    point2d() {}
-
-    point2d(ll x, ll y) {
-        this->x = x;
-        this->y = y;
+    point() : x(0), y(0) {
     }
 
-    point2d& operator+=(const point2d &t) {
-        x += t.x;
-        y += t.y;
+    point(const F& x, const F& y) : x(x), y(y) {
+    }
+
+    point& operator-() {
+        return {-x, -y};
+    }
+
+    point& operator+(const point<F>& other) {
+        return {x + other.x, y + other.y};
+    }
+
+    point& operator-(const point<F>& other) {
+        return {x - other.x, y - other.y};
+    }
+
+    point& operator*(const F other) {
+        return {x * other, y * other};
+    }
+
+    point& operator/(const F other) {
+        return {x / other.x, y / other.x};
+    }
+
+    F operator*(const point<F>& other) {
+        return x * other.x + y * other.y;
+    }
+
+    F operator^(const point<F>& other) {
+        return x * other.y - y * other.x;
+    }
+
+    point& operator+=(const point<F>& other) {
+        x += other.x;
+        y += other.y;
         return *this;
     }
 
-    point2d& operator-=(const point2d &t) {
-        x -= t.x;
-        y -= t.y;
+    point& operator-=(const point<F>& other) {
+        x -= other.x;
+        y -= other.y;
         return *this;
     }
 
-    point2d& operator*=(ftype t) {
-        x *= t;
-        y *= t;
+    point& operator*=(const F& factor) {
+        x *= factor;
+        y *= factor;
         return *this;
     }
 
-    point2d& operator/=(ftype t) {
-        x /= t;
-        y /= t;
+    point& operator/=(const F& factor) {
+        x /= factor;
+        y /= factor;
         return *this;
     }
 
-    point2d operator+(const point2d &t) const {
-        return point2d(*this) += t;
+    bool operator==(const point<F>& other) {
+        return x == other.x && y == other.y;
     }
 
-    point2d operator-(const point2d &t) const {
-        return point2d(*this) -= t;
-    }
-
-    point2d operator*(ftype t) const {
-        return point2d(*this) *= t;
-    }
-    
-    point2d operator/(ftype t) const {
-        return point2d(*this) /= t;
+    bool operator!=(const point<F>& other) {
+        return x != other.x || y != other.y;
     }
 };
 
-ll dot(point2d &p1, point2d &p2) { 
-    return p1.x * p2.x + p1.y * p2.y; 
+template <class F>
+ld angle(const point<F> &p) {
+    return atan2(p.y, p.x);
 }
 
-ll cross(point2d &p1, point2d &p2) { 
-    return p1.x * p2.y - p2.x * p1.y; 
+template <class F>
+ld angle(const point<F> &lhs, const point<F> &rhs) {
+    return atan2(lhs ^ rhs, lhs * rhs);
 }
 
-ll norm(point2d a) {
-    return dot(a, a);
+template <class F>
+ld angle(const point<F>& lhs, const point<F>& rhs, const point<F>& origin) {
+    return angle(lhs - origin, rhs - origin);
 }
 
-ld abs(point2d a) {
-    return sqrt(norm(a));
+template <class F1, class F2>
+point<ld> rotate(const point<F1>& p, const F2& angle) {
+    ld angleSin = sin(angle);
+    ld angleCos = cos(angle);
+    return point<ld>(angleCos * p.x - angleSin * p.y,
+                     angleSin * p.x + angleCos * p.y);
 }
 
-ld proj(point2d a, point2d b) {
-    return dot(a, b) / abs(b);
+template <class F1, class F2>
+point<F1> rotate(const point<F1>& p, const F2& angle, const point<F1>& origin) {
+    return origin + rotate(p - origin, p);
 }
 
-ld angle(point2d a, point2d b) {
-    return acos(dot(a, b) / abs(a) / abs(b));
+template <class F>
+point<F> perp(const point<F> &p) {
+    return point<F>(-p.y, p.x);
 }
 
-point2d intersect(point2d a1, point2d d1, point2d a2, point2d d2) {
-    return a1 + cross(a2 - a1, d2) / cross(d1, d2) * d1;
+template <class F>
+F abs(const point<F> &p) {
+    return p * p;
+}
+
+template <class F>
+ld norm(const point<F> &p) {
+    return sqrt(abs(p));
+}
+
+template <class F>
+ld dist(const point<F> &lhs, const point<F> &rhs) {
+    return norm(lhs - rhs);
+}
+
+template <class F>
+F dist2(const point<F>& lhs, const point<F>& rhs) {
+    return abs(lhs - rhs);
 }

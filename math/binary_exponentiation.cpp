@@ -10,6 +10,7 @@ ll power(ll x, ll y) {
         y = y >> 1ll;
         x = x * x;
     }
+    return res;
 }
 
 ll powermod(ll x, ll y, ll p) {

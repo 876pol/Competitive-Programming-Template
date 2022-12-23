@@ -15,6 +15,7 @@ class Solution {
         switch (mode) {
             case SINGLE: {
                 solve();
+                out.flush();
                 break;
             }
             case MULTIPLE: {
