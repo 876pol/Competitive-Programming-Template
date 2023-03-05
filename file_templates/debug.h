@@ -79,48 +79,28 @@ ostream &operator<<(ostream &out, const priority_queue<T> &obj) {
     [](const auto &...x) {                                        \
         vector<string> vs = split_args(#__VA_ARGS__);             \
         cerr << "LINE " << __LINE__ << ":\n";                     \
-        ll ind = 0;                                               \
+        int ind = 0;                                               \
         ((cerr << "  " << vs[ind++] << " = " << x << endl), ...); \
     }(__VA_ARGS__)
 
-#define STRUCT_DBG1(struct_obj, T1)                            \
-    ostream &operator<<(ostream &out, const struct_obj &obj) { \
-        return out << "[" << obj.T1 << "]";                    \
-    }
-#define STRUCT_DBG2(struct_obj, T1, T2)                        \
-    ostream &operator<<(ostream &out, const struct_obj &obj) { \
-        return out << "[" << obj.T1 << ", " << obj.T2 << "]";  \
-    }
-#define STRUCT_DBG3(struct_obj, T1, T2, T3)                             \
+string remove_struct_prefix(const string &s) {
+    return s.substr(s.find("::") + 2);
+}
+
+template <typename T, typename... Args>
+void print_members(ostream &out, const T &obj, const vector<string> &members,
+                   Args... args) {
+    int count = 0;
+    int total = sizeof...(args);
+    out << "[";
+    ((out << remove_struct_prefix(members[count]) << "=" << obj.*args,
+      (++count != total) ? out << ", " : out),
+     ...);
+    out << "]";
+}
+
+#define STRUCT_DBG(struct_obj, ...)                                     \
     ostream &operator<<(ostream &out, const struct_obj &obj) {          \
-        return out << "[" << obj.T1 << ", " << obj.T2 << ", " << obj.T3 \
-                   << "]";                                              \
-    }
-#define STRUCT_DBG4(struct_obj, T1, T2, T3, T4)                         \
-    ostream &operator<<(ostream &out, const struct_obj &obj) {          \
-        return out << "[" << obj.T1 << ", " << obj.T2 << ", " << obj.T3 \
-                   << ", " << obj.T4 << "]";                            \
-    }
-#define STRUCT_DBG5(struct_obj, T1, T2, T3, T4, T5)                     \
-    ostream &operator<<(ostream &out, const struct_obj &obj) {          \
-        return out << "[" << obj.T1 << ", " << obj.T2 << ", " << obj.T3 \
-                   << ", " << obj.T4 << ", " << obj.T5 << "]";          \
-    }
-#define STRUCT_DBG6(struct_obj, T1, T2, T3, T4, T5, T6)                  \
-    ostream &operator<<(ostream &out, const struct_obj &obj) {           \
-        return out << "[" << obj.T1 << ", " << obj.T2 << ", " << obj.T3  \
-                   << ", " << obj.T4 << ", " << obj.T5 << ", " << obj.T6 \
-                   << "]";                                               \
-    }
-#define STRUCT_DBG7(struct_obj, T1, T2, T3, T4, T5, T6, T7)              \
-    ostream &operator<<(ostream &out, const struct_obj &obj) {           \
-        return out << "[" << obj.T1 << ", " << obj.T2 << ", " << obj.T3  \
-                   << ", " << obj.T4 << ", " << obj.T5 << ", " << obj.T6 \
-                   << ", " << obj.T7 << "]";                             \
-    }
-#define STRUCT_DBG8(struct_obj, T1, T2, T3, T4, T5, T6, T7, T8)          \
-    ostream &operator<<(ostream &out, const struct_obj &obj) {           \
-        return out << "[" << obj.T1 << ", " << obj.T2 << ", " << obj.T3  \
-                   << ", " << obj.T4 << ", " << obj.T5 << ", " << obj.T6 \
-                   << ", " << obj.T7 << ", " << obj.T8 << "]";           \
+        print_members(out, obj, split_args(#__VA_ARGS__), __VA_ARGS__); \
+        return out;                                                     \
     }

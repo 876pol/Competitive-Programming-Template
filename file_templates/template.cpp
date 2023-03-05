@@ -5,14 +5,7 @@
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #define dbg(...)
-#define STRUCT_DBG1(...)
-#define STRUCT_DBG2(...)
-#define STRUCT_DBG3(...)
-#define STRUCT_DBG4(...)
-#define STRUCT_DBG5(...)
-#define STRUCT_DBG6(...)
-#define STRUCT_DBG7(...)
-#define STRUCT_DBG8(...)
+#define STRUCT_DBG(...)
 #else
 #include "lib/debug.h"
 #endif
